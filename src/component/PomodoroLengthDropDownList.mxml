@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:DropDownList xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				dataProvider="{pomodoroLengths}"
+				selectedIndex="3">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			public static const POMODORO_LENGTH_60MINUTES:Number = 60 * 60;
+			public static const POMODORO_LENGTH_45MINUTES:Number = 45 * 60;
+			public static const POMODORO_LENGTH_30MINUTES:Number = 30 * 60;
+			public static const POMODORO_LENGTH_25MINUTES:Number = 25 * 60;
+			public static const POMODORO_LENGTH_20MINUTES:Number = 20 * 60;
+			public static const POMODORO_LENGTH_15MINUTES:Number = 15 * 60;
+			public static const POMODORO_LENGTH_10MINUTES:Number = 10 * 60;
+			public static const POMODORO_LENGTH_5MINUTES:Number = 5 * 60;
+			public static const POMODORO_LENGTH_3Seconds:Number = 3;
+			
+			[Bindable]
+			private var pomodoroLengths:ArrayCollection = new ArrayCollection(
+				[
+					{data:POMODORO_LENGTH_60MINUTES, label:"60 分钟"},
+					{data:POMODORO_LENGTH_45MINUTES, label:"45 分钟"},
+					{data:POMODORO_LENGTH_30MINUTES, label:"30 分钟"},
+					
+					{data:POMODORO_LENGTH_25MINUTES, label:"25 分钟"},
+					{data:POMODORO_LENGTH_20MINUTES, label:"20 分钟"}, 
+					{data:POMODORO_LENGTH_15MINUTES, label:"15 分钟"}, 
+					{data:POMODORO_LENGTH_10MINUTES, label:"10 分钟"}, 
+					{data:POMODORO_LENGTH_5MINUTES, label:"5 分钟"}, 
+					{data:POMODORO_LENGTH_3Seconds, label:"3 秒"}
+				]
+			);
+			
+			public function getPomodoroLength():Number{
+				return selectedItem.data;
+			}
+		]]>
+	</fx:Script>
+</s:DropDownList>

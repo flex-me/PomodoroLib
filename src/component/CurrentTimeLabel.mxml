@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Label xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 creationComplete="onCreationComplete()"
+		 text="{currentTimeText}" fontSize="25">
+	<fx:Script>
+		<![CDATA[
+			import util.PomodoroUtil;
+			
+			[Bindable]
+			public var currentTimeText:String;
+			private var timer:Timer = new Timer(1000);
+			
+			private function onCreationComplete():void{
+				currentTimeText = PomodoroUtil.dateToFullString(new Date());
+				timer.addEventListener(TimerEvent.TIMER, onTimerEvent);
+				timer.start();
+			}
+			
+			private function onTimerEvent(timerEvent:TimerEvent):void{
+				this.dispatchEvent(timerEvent);
+				currentTimeText = PomodoroUtil.dateToFullString(new Date());
+			}
+			
+			public function getTimer():Timer{
+				return timer;
+			}
+		]]>
+	</fx:Script>
+</s:Label>

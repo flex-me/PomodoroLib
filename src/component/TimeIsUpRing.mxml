@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script>
+		<![CDATA[
+//目前只支持以下几个频率的mp3格式
+//5500 Hz
+//11025 Hz
+//22050 Hz
+//44100 Hz (preferred setting)			
+//http://stackoverflow.com/questions/4690285/unsupported-sampling-flex-actionscript
+			[Embed(source="assets/ring.mp3")]
+			[Bindable]
+			private var SoundClass:Class;
+			private var sound:Sound = new SoundClass() as Sound;
+			private var soundChannel:SoundChannel;
+			private var isSoundPlaying:Boolean = false;
+			
+			public function playSound():void {
+				if(isSoundPlaying == false){
+					soundChannel = sound.play();
+					isSoundPlaying = true;
+				}
+			}
+			
+			public function stopSound():void{
+				if(isSoundPlaying){
+					soundChannel.stop();
+					isSoundPlaying = false;
+				}
+			}
+		]]>
+	</fx:Script>
+</mx:VBox>
+

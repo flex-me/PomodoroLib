@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		horizontalAlign="center"
+		creationComplete="onCreationComplete()" xmlns:component="component.*">
+	<fx:Script>
+		<![CDATA[
+			import component.SimpleTimer;
+			
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import util.PomodoroUtil;
+			
+			private var simpleTimer:SimpleTimer = new SimpleTimer();
+			
+			private function onCreationComplete():void{
+				simpleTimer.addEventListener(TimerEvent.TIMER, onTimerEvent);
+			}
+			
+			private function onTimerEvent(timerEvent:TimerEvent):void{
+				timeLabel.increaseOneSecond();
+				showTimeIsUpLabel();
+			}
+			
+			private function showTimeIsUpLabel():void{
+				if(timeLabel.isTimeUp(pomodoroLengthDropDownList.getPomodoroLength())){
+					timeIsUpLabel.show();
+					timeIsUpRing.playSound();
+				}
+			}
+			
+			private function start():void{
+				timeLabel.reset();
+				timeIsUpLabel.hide();
+				timeIsUpRing.stopSound();
+				simpleTimer.restartTimer();
+				
+				
+				var object:Object = new Object();
+				object.currentTime = PomodoroUtil.dateToFullString(new Date()).substr(0, 20);
+				object.duration = pomodoroLengthDropDownList.getPomodoroLength() / 60 + "";
+				object.task = task.text == null || task.text == "" ? "Do Somthing... " : task.text;
+				service.send(object);
+			}
+			
+			private function handleFault(e:FaultEvent):void{
+				serverStatus.visible = true;
+				serverStatus.includeInLayout = true;
+			}
+			
+			private function handleResult(e:ResultEvent):void{
+				serverStatus.visible = false;
+				serverStatus.includeInLayout = false;
+			}
+			
+			protected function showAll(event:MouseEvent):void
+			{
+				var urlRequest:URLRequest = new URLRequest("http://localhost:8080/pomodororecorder/ShowAll");
+				navigateToURL(urlRequest, "_blank");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:HTTPService id="service" url="http://localhost:8080/pomodororecorder/RecordTask" 
+					   result="handleResult(event)"
+					   fault="handleFault(event)" />
+	</fx:Declarations>
+	
+	<component:TimeLabel id="timeLabel" />
+	<component:TimeIsUpLabel id="timeIsUpLabel" />
+	<component:TimeIsUpRing id="timeIsUpRing" />
+	<mx:HBox>
+		<component:PomodoroLengthDropDownList id="pomodoroLengthDropDownList" />
+		<s:TextInput id="task" />
+		<s:Button label="开始" click="start()" fontSize="18" />
+		<s:Image source="http://www.miamire.com/sites/miamire.com/files/ROSTER_icon_list1.jpg" 
+				 width="20" height="20" verticalAlign="middle" buttonMode="true" click="showAll(event)" />
+	</mx:HBox>
+	<s:Label id="serverStatus" text="Server connection error" visible="false" includeInLayout="false" />
+</mx:VBox>

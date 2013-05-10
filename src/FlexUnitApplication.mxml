@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This is an auto generated file and is not intended for modification. -->
+
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:flexui="flexunit.flexui.*"
+			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()">
+	<fx:Script>
+		<![CDATA[
+			import util.TestString;
+			import util.PomodoroUtilTest;
+			import component.TimeIsUpLabelTest;
+			import component.SimpleTimerTest;
+			import component.PomodoroLengthDropDownListTest;
+			import component.CurrentTimeLabelTest;
+			
+			public function currentRunTestSuite():Array
+			{
+				var testsToRun:Array = new Array();
+				testsToRun.push(component.CurrentTimeLabelTest);
+				testsToRun.push(component.PomodoroLengthDropDownListTest);
+				testsToRun.push(component.SimpleTimerTest);
+				testsToRun.push(component.TimeIsUpLabelTest);
+				testsToRun.push(util.PomodoroUtilTest);
+				testsToRun.push(util.TestString);
+				return testsToRun;
+			}
+			
+			
+			private function onCreationComplete():void
+			{
+				testRunner.runWithFlexUnit4Runner(currentRunTestSuite(), "PomodoroLib");
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<flexui:FlexUnitTestRunnerUI id="testRunner" portNumber="8765">
+	</flexui:FlexUnitTestRunnerUI>
+</s:Application>

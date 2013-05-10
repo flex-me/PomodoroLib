@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Label xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 text="{timeText}" fontSize="80">
+	<fx:Script>
+		<![CDATA[
+			import util.PomodoroUtil;
+			
+			[Bindable]
+			private var timeText:String = "00:00:00";
+			private var timeModel:Date;
+			
+			public function reset():void{
+				timeModel = PomodoroUtil.getTodayWithYearMonthDateOnly();
+				timeText = PomodoroUtil.dateToTimeString(timeModel);
+			}
+			
+			public function increaseOneSecond():void{
+				timeModel.seconds = timeModel.seconds + 1;
+				timeText = PomodoroUtil.dateToTimeString(timeModel);
+			}
+			
+			public function isTimeUp(pomodoroLength:Number):Boolean{
+				return PomodoroUtil.isTimeUp(timeModel, pomodoroLength);
+			}
+		]]>
+	</fx:Script>
+</s:Label>
